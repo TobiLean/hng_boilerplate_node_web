@@ -1,8 +1,20 @@
-# [App Name] Integration Documentation
+# confused_newbies Integration Documentation
+
+This is an API for a comprehensive project with various features
 
 ## Overview
 
-[Description]
+### DB Design
+
+Please use this link to access the Database design of this project [Visit link](https://dbdiagram.io/d/confused_newbies_db-6691e6eb9939893daed0178d)
+
+### API Design
+
+Please use this link to access the API design of this project for the contributors
+
+- Simon Ugorji [Visit project here](https://app.swaggerhub.com/apis/UGORJI757/HGN_STAGE_3_TASK/1.0.0)
+- Emmanuel Oguneko [visit project here](https://app.swaggerhub.com/apis/EmmanuelOguneko/comprehensiveAPI/1.0.0)
+  
 
 ## Folder Structure
 
@@ -253,4 +265,10 @@ All API endpoints can be referenced in the [API Reference](API_REFERENCE.md) doc
 
 ## Versioning
 
-This project is versioned to ensure backward compatibility and easy maintenance. The current version is [version].
+This project is versioned to ensure backward compatibility and easy maintenance. The current version is 1.0.0.
+
+## CONTRIBUTORS
+
+- Simon Ugorji 
+
+- Emmanuel Oguneko
