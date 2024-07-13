@@ -1,0 +1,1229 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "hng_boilerplate_node_web",
+    "description" : "The hng_boilerplate_node_web API is designed to support a robust and feature-rich web application. This API provides endpoints for managing users and organizations, handling payments, configuring settings, managing profile information, and handling notifications and blogs. It includes a superadmin interface to oversee users, organizations, payments, and activity logs. The API is structured to follow nodejs with express framework norms and ensure proper project organization.",
+    "version" : "1.0.0",
+    "termsOfService" : "https://hng.tech/terms",
+    "contact" : {
+      "name" : "Contact HNG",
+      "url" : "https://hng.tech/contact-us"
+    },
+    "license" : {
+      "name" : "HNG License",
+      "url" : "https://licenses.example.com"
+    }
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8080/v1",
+    "description" : "Local server"
+  }, {
+    "url" : "http://dev.example.com/v1",
+    "description" : "Dev server"
+  }, {
+    "url" : "http://prod.example.com/v1",
+    "description" : "Prod server"
+  } ],
+  "components" : {
+    "schemas" : {
+      "User" : {
+        "description" : "Model for user object",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "user_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "username" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email"
+          },
+          "country_code" : {
+            "type" : "integer"
+          },
+          "is_active" : {
+            "type" : "boolean"
+          },
+          "is_verified" : {
+            "type" : "boolean"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "last_login-at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Organisation" : {
+        "description" : "Model for Organisation object",
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "org_id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "CreatePayment" : {
+        "type" : "object",
+        "required" : [ "userId", "amount", "currency", "provider", "payment_method" ],
+        "properties" : {
+          "userId" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "payment_method" : {
+            "type" : "string"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "provider" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Payment" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "user_Id" : {
+            "type" : "string"
+          },
+          "amount" : {
+            "type" : "number",
+            "format" : "float"
+          },
+          "currency" : {
+            "type" : "string"
+          },
+          "payment_method" : {
+            "type" : "string"
+          },
+          "transaction_id" : {
+            "type" : "string"
+          },
+          "provider" : {
+            "type" : "string"
+          },
+          "status" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Settings" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          },
+          "settings" : {
+            "type" : "object"
+          }
+        }
+      },
+      "ProfileSettings" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          },
+          "profile" : {
+            "type" : "object"
+          }
+        }
+      },
+      "Notification" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "userId" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "read" : {
+            "type" : "boolean"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Blog" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "content" : {
+            "type" : "string"
+          },
+          "authorId" : {
+            "type" : "string"
+          },
+          "createdAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updatedAt" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "bearerAuth" : {
+        "type" : "http",
+        "scheme" : "bearer",
+        "bearerFormat" : "JWT"
+      },
+      "secretKeyAuth" : {
+        "type" : "apiKey",
+        "in" : "header",
+        "name" : "Authorization"
+      }
+    },
+    "responses" : {
+      "SuccessResponse" : {
+        "description" : "Success",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "message" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "DeletedResponse" : {
+        "description" : "Successful deletion",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object"
+            }
+          }
+        }
+      },
+      "UnauthorizedError" : {
+        "description" : "Unauthorized error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ForbiddenError" : {
+        "description" : "Permission error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "BadRequestError" : {
+        "description" : "Bad request error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFoundError" : {
+        "description" : "Not found error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ValidationError" : {
+        "description" : "Validation error for form fields",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "array",
+                  "items" : {
+                    "type" : "object",
+                    "properties" : {
+                      "field" : {
+                        "type" : "string"
+                      },
+                      "error" : {
+                        "type" : "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError" : {
+        "description" : "Server error",
+        "content" : {
+          "application/json" : {
+            "schema" : {
+              "type" : "object",
+              "properties" : {
+                "detail" : {
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/api/users" : {
+      "get" : {
+        "summary" : "Get a list of all registered users",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Endpoint to get a list of all registered users",
+        "tags" : [ "Users" ],
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "Number of user to show by default",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 10,
+            "maximum" : 20,
+            "example" : 15
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "Number of user to skip",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 10,
+            "maximum" : 20,
+            "example" : 15
+          }
+        }, {
+          "name" : "username",
+          "in" : "query",
+          "description" : "To filter users by name",
+          "schema" : {
+            "type" : "string",
+            "example" : "John"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Users retrieved succesfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Users" ],
+        "summary" : "Create a new user",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "allOf" : [ {
+                  "$ref" : "#/components/schemas/User"
+                } ]
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "User created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ValidationError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/users/{userId}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "userId",
+        "required" : true,
+        "description" : "This is the id of the user to be searched for",
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "get" : {
+        "summary" : "Get a single user by ID",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Endpoint to get a single user's details",
+        "tags" : [ "Users" ],
+        "responses" : {
+          "200" : {
+            "description" : "User found",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Users" ],
+        "summary" : "Update current user",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Endpoint to get the current user matching the Id to update",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "User updated successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete user by ID",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "tags" : [ "Users" ],
+        "responses" : {
+          "204" : {
+            "$ref" : "#/components/responses/DeletedResponse"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ValidationError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/organisations" : {
+      "get" : {
+        "tags" : [ "Organisations" ],
+        "summary" : "Get a list of organisations",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Obtain all organisations for the current user. This endpoint can also be used to get all organisations in the database, only if the user role is that of an admin or superadmin.",
+        "parameters" : [ {
+          "name" : "limit",
+          "in" : "query",
+          "description" : "The amount of organisations returned",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 10,
+            "maximum" : 20
+          }
+        }, {
+          "name" : "offset",
+          "in" : "query",
+          "description" : "The amount of organisations to skip",
+          "schema" : {
+            "type" : "integer",
+            "minimum" : 10,
+            "maximum" : 20
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of organisations",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Organisation"
+                  }
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Organisations" ],
+        "summary" : "Add organisation",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Add a new Organisation",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string",
+                    "description" : "The name of the organisation"
+                  },
+                  "description" : {
+                    "description" : "The details of the organisation",
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successfully created organisation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ValidationError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api//organisations/{orgId}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "orgId",
+        "required" : true,
+        "description" : "The id of the organisation",
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "get" : {
+        "summary" : "Get a single organisation details",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Obtain a single organisation. This endpoint is role based. So if it is a regular user, they have access to only organisations they belong to, and if it is an admin or superadmin, they have access to all organisations.",
+        "tags" : [ "Organisations" ],
+        "responses" : {
+          "200" : {
+            "description" : "Organisation details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Organisations" ],
+        "summary" : "Update an organisation",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Update the details of an organisation. This is also protected just like in the get request above.",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "type" : "object",
+                "properties" : {
+                  "name" : {
+                    "type" : "string",
+                    "description" : "The name of the organisation"
+                  },
+                  "description" : {
+                    "description" : "The details of the organisation",
+                    "type" : "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successfully updated organisation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Organisation"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ValidationError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Organisations" ],
+        "summary" : "Delete an organisation",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Delete an organisation from the database. This ia also a protected route.",
+        "responses" : {
+          "204" : {
+            "$ref" : "#/components/responses/DeletedResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/payments" : {
+      "post" : {
+        "tags" : [ "Payments" ],
+        "summary" : "Create a payment",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Endpoint for payment",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CreatePayment"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Payment created successfully",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "422" : {
+            "$ref" : "#/components/responses/ValidationError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/payments/{paymentId}" : {
+      "get" : {
+        "summary" : "Get a single payment details",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "description" : "Obtain the details of a single payment. This is role based in that, a regular user can only get the details of the payments they made, and an admin or superadmin user can get the details of payments with the Id.",
+        "tags" : [ "Payments" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "paymentId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Payment details fetched",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Payment"
+                }
+              }
+            }
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/settings" : {
+      "parameters" : [ {
+        "in" : "query",
+        "name" : "userId",
+        "required" : true,
+        "schema" : {
+          "type" : "string",
+          "example" : "user123"
+        }
+      } ],
+      "get" : {
+        "summary" : "Get setting",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "tags" : [ "Settings" ],
+        "responses" : {
+          "200" : {
+            "description" : "Settings details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Settings"
+                }
+              }
+            }
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update settings",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "tags" : [ "Settings" ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Settings"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/SuccessResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "401" : {
+            "$ref" : "#/components/responses/UnauthorizedError"
+          },
+          "403" : {
+            "$ref" : "#/components/responses/ForbiddenError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/profile" : {
+      "get" : {
+        "summary" : "Get profile settings",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "tags" : [ "Profile" ],
+        "responses" : {
+          "200" : {
+            "description" : "Profile settings details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ProfileSettings"
+                }
+              }
+            }
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update profile settings",
+        "security" : [ {
+          "bearerAuth" : [ ]
+        }, {
+          "secretKeyAuth" : [ ]
+        } ],
+        "tags" : [ "Profile" ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ProfileSettings"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/SuccessResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          }
+        }
+      }
+    },
+    "/api/notifications" : {
+      "get" : {
+        "summary" : "Get notifications",
+        "tags" : [ "Notification" ],
+        "responses" : {
+          "200" : {
+            "description" : "List of notifications",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Notification"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/notifications/{notificationId}" : {
+      "put" : {
+        "summary" : "Mark notification as read",
+        "tags" : [ "Notification" ],
+        "parameters" : [ {
+          "in" : "path",
+          "name" : "notificationId",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/SuccessResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          }
+        }
+      }
+    },
+    "/api/blogs" : {
+      "get" : {
+        "summary" : "Get list of blogs",
+        "tags" : [ "Blog" ],
+        "responses" : {
+          "200" : {
+            "description" : "List of blogs",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Blog"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a new blog",
+        "tags" : [ "Blog" ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Blog"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "$ref" : "#/components/responses/SuccessResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    },
+    "/api/blogs/{blogId}" : {
+      "parameters" : [ {
+        "in" : "path",
+        "name" : "blogId",
+        "required" : true,
+        "schema" : {
+          "type" : "string"
+        }
+      } ],
+      "get" : {
+        "summary" : "Get blog details",
+        "tags" : [ "Blog" ],
+        "responses" : {
+          "200" : {
+            "description" : "Blog details",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Blog"
+                }
+              }
+            }
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update a blog by ID",
+        "tags" : [ "Blog" ],
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Blog"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "$ref" : "#/components/responses/SuccessResponse"
+          },
+          "400" : {
+            "$ref" : "#/components/responses/BadRequestError"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a blog by ID",
+        "tags" : [ "Blog" ],
+        "responses" : {
+          "204" : {
+            "$ref" : "#/components/responses/DeletedResponse"
+          },
+          "404" : {
+            "$ref" : "#/components/responses/NotFoundError"
+          },
+          "500" : {
+            "$ref" : "#/components/responses/ServerError"
+          }
+        }
+      }
+    }
+  }
+}
