@@ -188,8 +188,7 @@
                       "type": "object",
                       "example": {
                         "userName": "user162",
-                        "blog_posts_count": 4,
-                        "followers": 26
+                        "blog_posts_count": 4
                       }
                     },
                     "earnings": {
@@ -259,17 +258,92 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request. Invalid year",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Year must be an integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User must be logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
           }
         }
       }
     },
     "/dashboard/user": {
       "get": {
-        "summary": "",
-        "description": "",
+        "summary": "Retrieve user information from dashboard",
+        "description": "Get full user information from dashboard",
         "responses": {
           "200": {
-            "description": ""
+            "description": "Successfully retrieved user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "userName": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "date_created": {
+                      "type": "number",
+                      "format": "date"
+                    },
+                    "organisations_list": {
+                      "type": "array"
+                    },
+                    "blog_posts": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to get user information"
+          },
+          "401": {
+            "description": "User must be logged in first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
           }
         }
       }
