@@ -1,0 +1,116 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "hng_boilerplate_node_web",
+    "version" : "1.0.0",
+    "description" : "API for a comprehensive project with various features",
+    "termsOfService" : "https://hng.tech/terms",
+    "contact" : {
+      "name" : "Contact HNG",
+      "url" : "https://hng.tech/contact-us"
+    },
+    "license" : {
+      "name" : "HNG License",
+      "url" : "https://licenses.example.com"
+    }
+  },
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/UGORJI757/HGN_STAGE_3_TASK/1.0.0"
+  }, {
+    "url" : "https://example.com/api/v1",
+    "description" : "Live URL"
+  }, {
+    "url" : "https://staging.example.com/api/v1",
+    "description" : "Staging URL"
+  } ],
+  "components" : {
+    "schemas" : {
+      "Waitlist" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "format" : "email"
+          }
+        }
+      },
+      "Contact" : {
+        "type" : "object",
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "format" : "email"
+          },
+          "subject" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  },
+  "paths" : {
+    "/waitlist" : {
+      "post" : {
+        "summary" : "Create a new waitlist",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Waitlist"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/contact" : {
+      "post" : {
+        "summary" : "Sends a message to support",
+        "requestBody" : {
+          "required" : true,
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Contact"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Invalid input"
+          }
+        }
+      }
+    },
+    "/invite-link" : {
+      "get" : {
+        "summary" : "Retrieves unique link to invite other users",
+        "responses" : {
+          "201" : {
+            "description" : "OK"
+          },
+          "400" : {
+            "description" : "Record not found"
+          }
+        }
+      }
+    }
+  }
+}
