@@ -220,6 +220,9 @@
       "get": {
         "summary": "Retrieve user earnings",
         "description": "Gut full user earnings from dashboard",
+        "tags": [
+          "Dashboard"
+        ],
         "parameters": [
           {
             "schema": {
@@ -317,7 +320,7 @@
                     "lastName": {
                       "type": "string"
                     },
-                    "date_created": {
+                    "created_at": {
                       "type": "number",
                       "format": "date"
                     },
@@ -347,31 +350,184 @@
           }
         }
       }
+    },
+    "/invite/{userId}": {
+      "get": {
+        "summary": "Invite user",
+        "description": "Personal invite link",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "get personal like through the user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully generated links"
+          },
+          "500": {
+            "description": "Internal server error. Could not generate link"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "summary": "Get home page",
+        "description": "Render home page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded home page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/about": {
+      "get": {
+        "summary": "Get about page",
+        "description": "Render about page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded about page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/privacy": {
+      "get": {
+        "summary": "Get privacy policy page",
+        "description": "Render privacy policy page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded privacy policy page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/subscribe": {
+      "post": {
+        "summary": "Squeeze/Marketing page",
+        "description": "Endpoint to get user info after marketing",
+        "responses": {
+          "200": {
+            "description": "Successfully registered for newsletter"
+          },
+          "307": {
+            "description": "redirect to homepage",
+            "headers": {
+              "Location": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string",
+                      "example": "/home"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Server timeout"
+          }
+        }
+      }
+    },
+    "/chartdata": {
+      "get": {
+        "summary": "Get chart page",
+        "description": "Endpoint to retrieve chart page data",
+        "responses": {
+          "200": {
+            "description": "Retrieved chart page data successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "views": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "bounce_rate": {
+                      "type": "number"
+                    },
+                    "heat_maps": {
+                      "type": "array",
+                      "description": "User interactions along page elements"
+                    },
+                    "top_countries": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "could not get data"
+          }
+        }
+      }
     }
-
-
   },
   "components": {
     "schemas": {
       "user": {
         "type": "object",
         "properties": {
-          "id": {
+          "userId": {
             "type": "string"
           },
           "firstName": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "lastName": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 50
           },
           "userName": {
-            "type": "string"
-          },
-          "age": {
-            "type": "integer",
-            "minimum": 18,
-            "maximum": 125
+            "type": "string",
+            "maxLength": 50
           },
           "password": {
             "type": "string",
