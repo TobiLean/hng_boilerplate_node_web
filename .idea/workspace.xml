@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cbd5fdc1-b757-4117-baa2-9ac0638a8615" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/hng_boilerplate_node_web.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hng_boilerplate_node_web.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/confused_newbies.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/openapi/project_openAPI.json" beforeDir="false" afterPath="$PROJECT_DIR$/openapi/project_openAPI.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/redoc-static.html" beforeDir="false" afterPath="$PROJECT_DIR$/redoc-static.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,22 +51,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Json OpenAPI version 3&quot;: &quot;Json OpenAPI version 3&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;branch-1&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/codeine/hng/hng_boilerplate_node_web&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.qodana&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Json OpenAPI version 3": "Json OpenAPI version 3",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "confused__newbies",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/codeine/hng/hng_boilerplate_node_web",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.rainbow.brackets.disable.when",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\codeine\hng\hng_boilerplate_node_web" />
@@ -91,7 +91,8 @@
       <workItem from="1720814047461" duration="8830000" />
       <workItem from="1720859410699" duration="11877000" />
       <workItem from="1720882929198" duration="2361000" />
-      <workItem from="1720894755917" duration="9080000" />
+      <workItem from="1720894755917" duration="9645000" />
+      <workItem from="1720909015398" duration="1389000" />
     </task>
     <servers />
   </component>
