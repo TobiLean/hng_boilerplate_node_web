@@ -1,0 +1,601 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Authentication",
+    "description": "These are the specifications for the user authentication and other endpoints",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.server.test/v1"
+    }
+  ],
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "register user",
+        "description": "Creates a new user",
+        "operationId": "registerUser",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "description": "User schema",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/user"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Registration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid parameter types!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Login to application",
+        "description": "Verify and authenticate user credentials",
+        "operationId": "loginUser",
+        "tags": [
+          "Users"
+        ],
+        "requestBody": {
+          "description": "Login request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "example": "banana_user156"
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "format": "password",
+                    "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+                    "example": "Hiihih12@"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Login",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/successResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. Invalid Credentials",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": "false"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Invalid credentials. No user with that email or password exist"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/messages": {
+      "get": {
+        "summary": "Retrieve messages",
+        "description": "Get messages sent to user",
+        "operationId": "getMessages",
+        "tags": [
+          "Users"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved messages",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized. No access",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard": {
+      "get": {
+        "summary": "Retrieve dashboard information",
+        "description": "Get summary of widget information and place in dashboard",
+        "operationId": "getDashBoard",
+        "tags": [
+          "Dashboard"
+        ],
+        "responses": {
+          "200": {
+            "description": "Retrieved dashboard information successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "notifications": {
+                      "type": "object",
+                      "example": {
+                        "notifications_count": 8,
+                        "latest_notification": "text",
+                        "email_notification_status": false
+                      }
+                    },
+                    "user": {
+                      "type": "object",
+                      "example": {
+                        "userName": "user162",
+                        "blog_posts_count": 4
+                      }
+                    },
+                    "earnings": {
+                      "type": "object",
+                      "example": {
+                        "earnings_ammount": 15000,
+                        "profit": 12000
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "No logged in user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/earnings": {
+      "get": {
+        "summary": "Retrieve user earnings",
+        "description": "Gut full user earnings from dashboard",
+        "tags": [
+          "Dashboard"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "year",
+            "required": false,
+            "example": 2024,
+            "description": "Get earning records by specified year"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user earnings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "earnings": {
+                        "type": "object",
+                        "example": {
+                          "earnings_ammount": 15000,
+                          "latest_payment_date": "15-09-2023",
+                          "credit_score": 30,
+                          "ads_cost": 3000,
+                          "profit": 12000,
+                          "year": 2024
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request. Invalid year",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Year must be an integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "User must be logged in",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/user": {
+      "get": {
+        "summary": "Retrieve user information from dashboard",
+        "description": "Get full user information from dashboard",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "userName": {
+                      "type": "string"
+                    },
+                    "firstName": {
+                      "type": "string"
+                    },
+                    "lastName": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "number",
+                      "format": "date"
+                    },
+                    "organisations_list": {
+                      "type": "array"
+                    },
+                    "blog_posts": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed to get user information"
+          },
+          "401": {
+            "description": "User must be logged in first",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/noAuth"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/invite/{userId}": {
+      "get": {
+        "summary": "Invite user",
+        "description": "Personal invite link",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "description": "get personal like through the user ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully generated links"
+          },
+          "500": {
+            "description": "Internal server error. Could not generate link"
+          }
+        }
+      }
+    },
+    "/home": {
+      "get": {
+        "summary": "Get home page",
+        "description": "Render home page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded home page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/about": {
+      "get": {
+        "summary": "Get about page",
+        "description": "Render about page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded about page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/privacy": {
+      "get": {
+        "summary": "Get privacy policy page",
+        "description": "Render privacy policy page data",
+        "responses": {
+          "200": {
+            "description": "Successfully loaded privacy policy page",
+            "content": {
+              "text/html": {
+                "schema": {
+                  "type": "string",
+                  "example": "<body></body>"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Could not get page"
+          }
+        }
+      }
+    },
+    "/subscribe": {
+      "post": {
+        "summary": "Squeeze/Marketing page",
+        "description": "Endpoint to get user info after marketing",
+        "responses": {
+          "200": {
+            "description": "Successfully registered for newsletter"
+          },
+          "307": {
+            "description": "redirect to homepage",
+            "headers": {
+              "Location": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string",
+                      "example": "/home"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "408": {
+            "description": "Server timeout"
+          }
+        }
+      }
+    },
+    "/chartdata": {
+      "get": {
+        "summary": "Get chart page",
+        "description": "Endpoint to retrieve chart page data",
+        "responses": {
+          "200": {
+            "description": "Retrieved chart page data successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "views": {
+                      "type": "integer",
+                      "example": 400
+                    },
+                    "bounce_rate": {
+                      "type": "number"
+                    },
+                    "heat_maps": {
+                      "type": "array",
+                      "description": "User interactions along page elements"
+                    },
+                    "top_countries": {
+                      "type": "array"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "could not get data"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "user": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "lastName": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "userName": {
+            "type": "string",
+            "maxLength": 50
+          },
+          "password": {
+            "type": "string",
+            "minLength": 8,
+            "format": "password",
+            "pattern": "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+          }
+        }
+      },
+      "successResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "example": "[message]"
+          },
+          "data": {
+            "type": "object",
+            "example": {
+              "[key]": "[value]"
+            }
+          }
+        }
+      },
+      "noAuth": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "boolean",
+            "example": "false"
+          },
+          "message": {
+            "type": "string",
+            "example": "User must have authorization. Login"
+          }
+        }
+      },
+      "message": {
+        "type": "array",
+        "properties": {
+          "user_relationship_id": {
+            "type": "string"
+          },
+          "messages": {
+            "type": "object",
+            "properties": {
+              "message_id": {
+                "type": "string"
+              },
+              "sent": {
+                "type": "number",
+                "format": "date"
+              },
+              "received": {
+                "type": "number",
+                "format": "date"
+              },
+              "message_content": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
