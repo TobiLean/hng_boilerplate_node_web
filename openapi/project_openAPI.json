@@ -196,9 +196,6 @@
                       "type": "object",
                       "example": {
                         "earnings_ammount": 15000,
-                        "latest_payment_date": "15-09-2023",
-                        "credit_score": 30,
-                        "ads_cost": 3000,
                         "profit": 12000
                       }
                     }
@@ -221,6 +218,52 @@
       }
     },
     "/dashboard/earnings": {
+      "get": {
+        "summary": "Retrieve user earnings",
+        "description": "Gut full user earnings from dashboard",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "year",
+            "required": false,
+            "example": 2024,
+            "description": "Get earning records by specified year"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved user earnings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "earnings": {
+                        "type": "object",
+                        "example": {
+                          "earnings_ammount": 15000,
+                          "latest_payment_date": "15-09-2023",
+                          "credit_score": 30,
+                          "ads_cost": 3000,
+                          "profit": 12000,
+                          "year": 2024
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/dashboard/user": {
       "get": {
         "summary": "",
         "description": "",
