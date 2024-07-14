@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Authentication",
+    "title": "CONFUSED_NEWBIES openAPI specification",
     "description": "These are the specifications for the user authentication and other endpoints",
     "version": "1.0",
     "termsOfService": "https://hng.tech/terms",
