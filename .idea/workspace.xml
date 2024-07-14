@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="cbd5fdc1-b757-4117-baa2-9ac0638a8615" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/openapi/project_openAPI.json" beforeDir="false" afterPath="$PROJECT_DIR$/openapi/project_openAPI.json" afterDir="false" />
-    </list>
+    <list default="true" id="cbd5fdc1-b757-4117-baa2-9ac0638a8615" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -89,7 +87,7 @@
       <workItem from="1720859410699" duration="11877000" />
       <workItem from="1720882929198" duration="2361000" />
       <workItem from="1720894755917" duration="9645000" />
-      <workItem from="1720909015398" duration="4817000" />
+      <workItem from="1720909015398" duration="5184000" />
     </task>
     <servers />
   </component>

@@ -320,6 +320,9 @@
       "get": {
         "summary": "Retrieve user information from dashboard",
         "description": "Get full user information from dashboard",
+        "tags": [
+          "Dashboard"
+        ],
         "responses": {
           "200": {
             "description": "Successfully retrieved user information",
@@ -376,6 +379,9 @@
       "get": {
         "summary": "Invite user",
         "description": "Personal invite link",
+        "tags": [
+          "Dashboard"
+        ],
         "parameters": [
           {
             "schema": {
@@ -401,6 +407,9 @@
       "get": {
         "summary": "Get home page",
         "description": "Render home page data",
+        "tags": [
+          "Landing page"
+        ],
         "responses": {
           "200": {
             "description": "Successfully loaded home page",
@@ -423,6 +432,9 @@
       "get": {
         "summary": "Get about page",
         "description": "Render about page data",
+        "tags": [
+          "Landing page"
+        ],
         "responses": {
           "200": {
             "description": "Successfully loaded about page",
@@ -445,6 +457,9 @@
       "get": {
         "summary": "Get privacy policy page",
         "description": "Render privacy policy page data",
+        "tags": [
+          "Landing page"
+        ],
         "responses": {
           "200": {
             "description": "Successfully loaded privacy policy page",
@@ -467,6 +482,9 @@
       "post": {
         "summary": "Squeeze/Marketing page",
         "description": "Endpoint to get user info after marketing",
+        "tags": [
+          "Notification"
+        ],
         "responses": {
           "200": {
             "description": "Successfully registered for newsletter"
@@ -496,6 +514,9 @@
       "get": {
         "summary": "Get chart page",
         "description": "Endpoint to retrieve chart page data",
+        "tags": [
+          "Analytics"
+        ],
         "responses": {
           "200": {
             "description": "Retrieved chart page data successfully",
