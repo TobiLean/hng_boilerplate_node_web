@@ -2111,6 +2111,9 @@
     },
     "/waitlist": {
       "post": {
+        "tags": [
+          "Waitlist"
+        ],
         "summary": "Create a new waitlist",
         "requestBody": {
           "required": true,
@@ -2134,6 +2137,9 @@
     },
     "/contact": {
       "post": {
+        "tags": [
+          "Contact"
+        ],
         "summary": "Sends a message to support",
         "requestBody": {
           "required": true,
@@ -2151,19 +2157,6 @@
           },
           "400": {
             "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/invite-link": {
-      "get": {
-        "summary": "Retrieves unique link to invite other users",
-        "responses": {
-          "201": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Record not found"
           }
         }
       }
