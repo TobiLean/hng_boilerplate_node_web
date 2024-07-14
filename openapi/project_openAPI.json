@@ -3,11 +3,32 @@
   "info": {
     "title": "Authentication",
     "description": "These are the specifications for the user authentication and other endpoints",
-    "version": "1.0"
+    "version": "1.0",
+    "termsOfService": "https://hng.tech/terms",
+    "contact": {
+      "name": "Contact HNG",
+      "url": "https://hng.tech/contact-us"
+    },
+    "license": {
+      "name": "HNG License",
+      "url": "https://licenses.example.com"
+    }
   },
   "servers": [
     {
       "url": "https://api.server.test/v1"
+    },
+    {
+      "url": "http://localhost:8080/v1",
+      "description": "Local server"
+    },
+    {
+      "url": "http://dev.example.com/v1",
+      "description": "Dev server"
+    },
+    {
+      "url": "http://prod.example.com/v1",
+      "description": "Prod server"
     }
   ],
   "paths": {
